@@ -1,0 +1,8 @@
+Count first name by origin :
+SELECT ori, COUNT(firstname) FROM orcpeople LATERAL VIEW explode(origin) adTable AS ori GROUP BY ori;
+
+Count number of first name by number of origin (how many first name has x origins ? For x = 1,2,3...) :
+SELECT COUNT(firstname), SIZE(origin) FROM orcpeople GROUP BY SIZE(origin);
+
+Proportion (in%) of male or female :
+SELECT unisex.mf*100/total_people.total FROM (SELECT COUNT(gender) AS mf FROM orcpeople WHERE gender = "m,f" OR gender ="f,m") unisex, (SELECT COUNT(firstname) AS total FROM orcpeople) total_people;
